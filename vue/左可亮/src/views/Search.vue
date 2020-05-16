@@ -15,10 +15,24 @@
 </template>
 
 <script>
+import {
+    mapState
+} from "vuex"
 export default {
     data(){
         return {
-           keyword:"" 
+        //    keyword:"" 
+        }
+    },
+    computed:{
+        // ...mapState('search',['keyword'])
+        keyword:{
+            get(){
+                return this.$store.state.search.keyword;
+            },
+            set(newVal){
+                this.$store.commit("search/changeKw",newVal); // 提交mutation 去修改 vuex 数据
+            }
         }
     },
     methods:{

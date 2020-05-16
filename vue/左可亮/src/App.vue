@@ -17,7 +17,8 @@ export default {
     "$route":function(to,from){
         this.className = "fade"
     }
-  }
+  },
+  
 }
 </script>
 

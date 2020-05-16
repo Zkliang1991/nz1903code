@@ -90,7 +90,7 @@ const routes = [
 // 3. 创建路由实例对象 
 const router = new VueRouter({
     routes,
-    mode:"history"
+    // mode:"history"   
 })
 
 

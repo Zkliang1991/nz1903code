@@ -33,23 +33,25 @@ module.exports = {
                 }
             },
             "/vue":{
-                target:"http://localhost:3000"   //  所有的接口 path 都有  vue  
+                // target:"http://localhost:3000"   //  所有的接口 path 都有  vue  
+                target:"http://182.92.60.8:3000"   //  所有的接口 path 都有  vue  
             },
             "/public":{
-                target:"http://localhost:3000" ,  //  所有的接口 path 都有  vue  
+                target:"http://182.92.60.8:3000" ,  //  所有的接口 path 都有  vue  
                 pathRewrite:{
                     "^/public":""  // 需要将 /yun 重写为 / 
-                }
+                },
             },
             "/maizuo":{
                 target:"https://m.maizuo.com",  // 服务器地址  
                 pathRewrite:{
-                    "^/maizuo":""  // 需要将 /yun 重写为 / 
+                    // "^/maizuo":""  // 需要将 /yun 重写为 / 
+                    "^/maizuo":""  // 需要将 /maizuo 重写为 / 
                 }
             },
         }
     },
-    // publicPath:"",  // 项目上线打包 
+    // publicPath:".",  // 项目上线打包   打包启用 
     css:{
         loaderOptions:{
             css:{},

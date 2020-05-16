@@ -72,7 +72,10 @@ export default {
     },
     created(){
         setTimeout(()=>{
-            this.getBanner();
+            if(!this.obj.banner>0){
+                this.getBanner();   // vuex 的 临时缓存
+            }
+            
             // this.$axios.get("/vue/movie?limit=6")
             // .then(res=>{
             //     this.$nextTick(()=>{

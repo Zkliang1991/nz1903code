@@ -2,7 +2,7 @@
     <div class="box" :class="animateClass">
         <Head title="影院"></Head>
         <div class="c-list">
-            <router-link :to="{name:'yydetail',params:{cinemaId:cinema.cinemaId}}" class="c-item" v-for="(cinema,index ) in cinemaList" :key="index">
+            <router-link :to="{name:'yydetail',params:{cinemaId:cinema.cinemaId}}" class="c-item" v-for="(cinema,index ) in obj.cinemaList" :key="index">
                 <div class="c-left">
                     <h4>{{cinema.name}}</h4>
                     <h6>{{cinema.address}}</h6>
@@ -21,6 +21,7 @@ import {
     myMixin,
     animate
 } from "@/utils"
+import {mapState,mapActions} from "vuex"
 export default {
     mixins:[myMixin,animate],
     data(){
@@ -28,18 +29,30 @@ export default {
             cinemaList:[]
         }
     },
+    methods:{
+        ...mapActions(['getCinemas'])
+    },
+    computed:{
+        ...mapState(['obj'])
+    },
     mounted(){
-        this.$axios.get("/maizuo/gateway?ticketFlag=1&k=635051",{
-            params:{
-                cityId:this.city.cityId
-            },
-            headers: {
-                'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"15729643184239132721923","bc":"110100"}',
-                'X-Host': 'mall.film-ticket.cinema.list'   // 根据请求头返回数据
-            }
-        }).then(res=>{
-            this.cinemaList = res.data.data.cinemas;
-        })
+        this.getCinemas({cityId:this.city.cityId,cb:()=>{
+            // 跳转逻辑 
+            // 警告弹框逻辑
+            console.log("Are you OK?????")
+        }});
+
+        // this.$axios.get("/maizuo/gateway?ticketFlag=1&k=635051",{
+        //     params:{
+        //         cityId:this.city.cityId
+        //     },
+        //     headers: {
+        //         'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"15729643184239132721923","bc":"110100"}',
+        //         'X-Host': 'mall.film-ticket.cinema.list'   // 根据请求头返回数据
+        //     }
+        // }).then(res=>{
+        //     this.cinemaList = res.data.data.cinemas;
+        // })
     }
 }
 </script>

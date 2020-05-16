@@ -7,7 +7,9 @@ import router from "../router"
 // axios 设置基本路径  
 
 let token = "";
-const baseURL = "http://localhost:3000";
+// const baseURL = "http://localhost:3000";   // 开发地址  dev
+const baseURL = "http://39.97.210.66:3000";   // 生产地址  prod 
+
 // axios.defaults.baseURL = baseURL;
 axios.defaults.headers.common['token'] = token;  // 设置请求头里面的 token 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'; // 设置POST提交数据的文档类型编码

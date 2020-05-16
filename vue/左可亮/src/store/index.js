@@ -14,12 +14,11 @@ Vue.use(Vuex)
 // mutation 非常类似于事件：每个 mutation 都有一个字符串的 事件类型 (type) 和 一个 回调函数 (handler)
 // mutation 只能写 同步操作 
 
-
 // actions
 // 1 Action 提交的是 mutation，而不是直接变更状态
 // 2.Action 可以包含任意异步操作
 
-// moudles 
+// moudles 模块化  允许把store 拆分成细小的 store 
 
 // store  每一个 Vuex 应用的核心就是 store（仓库）
 
@@ -29,8 +28,17 @@ import {
   COUNTDESC
 } from "./types"
 import {axios} from "@/utils/axios";
-
-const store =  new Vuex.Store({  
+import {
+  usersMoudle
+} from "./users"
+import {
+  searchModule
+} from "./search"
+const store =  new Vuex.Store({ 
+  modules: {
+    users:usersMoudle,
+    search:searchModule
+  }, 
   state: {
       count:1903,
       num:8,
@@ -41,7 +49,9 @@ const store =  new Vuex.Store({
         players:[]
       },
       obj:{
-        banner:[]
+        banner:[],
+        cinemaList:[],
+        cityList:[]
       }
   },
   mutations: {  // 改变 store 中的状态的唯一途径就是显式地提交 (commit) mutation
@@ -65,15 +75,20 @@ const store =  new Vuex.Store({
     },
     getPlayers(state,payload){
       // 当需要在对象上添加新属性时  
-      // state.yum.players = payload;   
-      state.yum = {...state.yum,players:payload};
+      // state.yum.players = payload;   // 旧对象  
+      state.yum = {...state.yum,players:payload};  // 新对象 
     },
     getBanner(state,payload){
       state.obj = {...state.obj,banner:payload};
+    },
+    getCinemas(state,payload){
+      state.obj = {...state.obj,cinemaList:payload};
+    },
+    getCityList(state,payload){
+      state.obj = {...state.obj,cityList:payload};
     }
   },
-  modules: {
-  },
+
   actions: {  // 如果有异步请求 使用action
     changeMsg(context){  // action 一定有 提交 mutation 的操作 
       // ajax  
@@ -93,6 +108,31 @@ const store =  new Vuex.Store({
       .then(res=>{
         commit("getBanner",res.data.result);
       })
+    },
+    getCinemas({commit},{cityId,cb}){
+      // this.$axios;
+      axios.get("/maizuo/gateway?ticketFlag=1&k=635051",{
+          params:{
+              cityId
+          },
+          headers: {
+              'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"15729643184239132721923","bc":"110100"}',
+              'X-Host': 'mall.film-ticket.cinema.list'   // 根据请求头返回数据
+          }
+      }).then(res=>{
+          cb()
+          commit("getCinemas",res.data.data.cinemas);
+      })
+    },
+    getCityList({commit}){
+      axios({
+        url: "/maizuo/gateway?k=2020849",
+        headers: {
+          "X-Host": "mall.film-ticket.city.list"
+        }
+      }).then(res => {
+        commit("getCityList",res.data.data.cities)
+      });
     }
   },
 
