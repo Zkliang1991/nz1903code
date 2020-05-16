@@ -1,0 +1,40 @@
+
+
+@import "common";
+@import "./fonts/iconfont.css";
+
+//这里写其他公共样式
+
+html,body,#app,.box{
+	width: 100vw;
+	height: 100vh;
+}
+
+
+@keyframes enter{
+	from {
+		opacity: 0;
+		transform:translateY(-10%);
+	}
+	to{
+		opacity: 1;
+		transform:translateY(0%);
+	}
+}
+@keyframes leave{
+	from {
+		opacity: 1;
+		transform:translateY(0);
+	}
+	to{
+		opacity: 0;
+		transform:translateY(10%);
+	}
+}
+
+.enter{
+	animation: enter .6s;;
+}
+.leave{
+	animation: leave .6s;;
+}
