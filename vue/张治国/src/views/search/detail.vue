@@ -18,7 +18,10 @@
               {{item.alias[0]}}
             </p>
             <a href="javascript:;"
-               class="iconfont">&#xe630;</a>
+               class="iconfont">
+               <i>{{player.musicId == item.id? '播放中' : ''}}</i>
+               &#xe630;
+            </a>
           </li>
         </ul>
       </van-tab>
@@ -45,22 +48,28 @@ export default {
     chooseSong(e) {
       // 获取点击的歌曲id，跳转到播放页，或者直接播放
       let musicId = e.currentTarget.getAttribute("musicId");
-      let name = e.currentTarget.querySelectorAll("h3")[0].innerHTML + ' -- ';
+      let name = e.currentTarget.querySelectorAll("h3")[0].innerHTML + " -- ";
       name += e.currentTarget.querySelectorAll("span")[0].innerHTML;
       // console.log(e.target.className);
       if (e.target.className == "iconfont") {
         // 如果是a标签则直接播放
-        this.setSong({
-          musicId,
-          name,
-          autoplay: true
-        });
+        if (musicId != this.player.musicId) {
+          this.setSong({
+            musicId,
+            name,
+            autoplay: true
+          });
+        } else {
+          this.play();
+        }
       } else {
-        this.setSong({
-          musicId,
-          name,
-          autoplay: false
-        });
+        if (musicId != this.player.musicId) {
+          this.setSong({
+            musicId,
+            name,
+            autoplay: false
+          });
+        }
         this.$router.push({
           name: "player"
         });
@@ -132,6 +141,10 @@ export default {
       color: cadetblue;
       &:active {
         color: #f31717;
+      }
+      i{
+        font-size: 12px;
+        color: rgb(4, 255, 180);
       }
     }
   }

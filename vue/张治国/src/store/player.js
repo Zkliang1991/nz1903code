@@ -18,12 +18,11 @@ export const player = {
     },
     init(state, payload) { // 内部使用，初始化
       state.play = false;
+      state.autoplay = payload.autoplay;
       state.musicId = payload.musicId;
       state.name = payload.name;
-      state.autoplay = payload.autoplay;
       state.song = payload.song;
       if (state.src !== payload.song[0].url) {
-
         state.src = payload.song[0].url;
         state.ready = false;
 
@@ -35,9 +34,6 @@ export const player = {
       } else {
         state.play = true;
       }
-
-
-
     }
   },
   actions: {
@@ -47,6 +43,7 @@ export const player = {
       //   name
       // }
       let obj = { ...payload };
+
       axios.get("/yun/check/music", { // 判断歌曲是否可用的请求
         params: {
           id: obj.musicId
@@ -66,6 +63,7 @@ export const player = {
           alert(res.data.message)
         }
       })
+
 
 
     }
